@@ -1,0 +1,69 @@
+package com.ins.linphoneexample;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.ins.linphone.LinphoneWrapper;
+import com.ins.linphone.callback.RegistrationCallback;
+import com.ins.linphone.service.LinphoneService;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
+
+public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
+    @BindView(R.id.sip_account) EditText mAccount;
+    @BindView(R.id.sip_password) EditText mPassword;
+    @BindView(R.id.sip_server) EditText mServer;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+
+        if(!LinphoneService.isReady()){
+            LinphoneWrapper.startService(this);
+            LinphoneWrapper.addCallback(new RegistrationCallback() {
+                @Override
+                public void OnRegistrationOk() {
+                    super.OnRegistrationOk();
+                    Log.e(TAG, "registrationOk: ");
+                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    goToMainActivity();
+                }
+
+                @Override
+                public void OnRegistrationFailed() {
+                    super.OnRegistrationFailed();
+                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+
+                }
+            }, null);
+        }else {
+            goToMainActivity();
+        }
+
+    }
+
+    @OnClick(R.id.press_login)
+    public void login() {
+        String account = mAccount.getText().toString();
+        String password = mPassword.getText().toString();
+        String serverIP = mServer.getText().toString();
+        LinphoneWrapper.setAccount(account, password, serverIP);
+        LinphoneWrapper.login();
+    }
+
+    private void goToMainActivity() {
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
+    }
+}
