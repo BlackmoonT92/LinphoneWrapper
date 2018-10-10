@@ -60,9 +60,8 @@ You can add registrationCallback and phoneCallback in different place in your pr
 
 ```java
 // Configure sip account
-LinphoneWrapper.setAccount("1234", "password", "192.168.100.31");
 // Register to sip server
-LinphoneWrapper.login();
+LinphoneWrapper.login("1234", "password", "192.168.100.31");
 ```
 
 ### 3. Manage the voice call
