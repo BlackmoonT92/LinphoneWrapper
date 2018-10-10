@@ -10,6 +10,8 @@ import android.widget.EditText;
 
 import com.ins.linphone.LinphoneWrapper;
 import com.ins.linphone.callback.PhoneCallback;
+import com.ins.linphone.callback.RegistrationCallback;
+import com.ins.linphone.linphone.LinphoneManager;
 
 import org.linphone.core.LinphoneCall;
 
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
                 mHangUp.setVisibility(View.GONE);
                 mToggleMute.setVisibility(View.GONE);
                 mToggleSpeaker.setVisibility(View.GONE);
+                LinphoneWrapper.logout();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
 
             @Override

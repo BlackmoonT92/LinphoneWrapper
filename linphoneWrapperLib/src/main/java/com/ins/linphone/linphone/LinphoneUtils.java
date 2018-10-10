@@ -63,6 +63,17 @@ public class LinphoneUtils {
         mLinphoneCore.setDefaultProxyConfig(prxCfg);
     }
 
+    public void unRegisterUserAuth(){
+        if(mLinphoneCore == null) return;
+        LinphoneProxyConfig prxCfg = mLinphoneCore.getDefaultProxyConfig();
+        if(prxCfg != null){
+            prxCfg.edit();
+            prxCfg.setExpires(0);
+            prxCfg.done();
+            mLinphoneCore.refreshRegisters();
+        }
+    }
+
     public LinphoneCall startSingleCallingTo(PhoneBean bean, boolean isVideoCall) {
         LinphoneAddress address;
         LinphoneCall call = null;

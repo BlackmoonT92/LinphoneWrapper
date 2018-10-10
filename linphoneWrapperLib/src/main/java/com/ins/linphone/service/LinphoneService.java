@@ -15,6 +15,7 @@ import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
 import com.ins.linphone.linphone.KeepAliveHandler;
 import com.ins.linphone.linphone.LinphoneManager;
+import com.ins.linphone.linphone.LinphoneUtils;
 
 import org.linphone.core.LinphoneAddress;
 import org.linphone.core.LinphoneAuthInfo;
@@ -43,9 +44,14 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     private static PhoneCallback sPhoneCallback;
     private static RegistrationCallback sRegistrationCallback;
 //    private PowerManager.WakeLock mWakeLock;
+    private static String sRegistrationState;
 
     public static boolean isReady() {
         return instance != null;
+    }
+
+    public static LinphoneService getInstance() {
+        return instance;
     }
 
     @Override
@@ -54,14 +60,24 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         LinphoneCoreFactoryImpl.instance();
         LinphoneManager.createAndStart(LinphoneService.this);
         instance = this;
-        Intent intent = new Intent(this, KeepAliveHandler.class);
-        mKeepAlivePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        ((AlarmManager)this.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 60000, 60000, mKeepAlivePendingIntent);
-
 //        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 //        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Linphone");
 //        mWakeLock.acquire();
+    }
+
+    public void keepServiceAlive(boolean keepAlive) {
+        if (keepAlive) {
+            Intent intent = new Intent(this, KeepAliveHandler.class);
+            mKeepAlivePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            ((AlarmManager) this.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + 60000, 60000, mKeepAlivePendingIntent);
+        } else {
+            ((AlarmManager) this.getSystemService(Context.ALARM_SERVICE)).cancel(mKeepAlivePendingIntent);
+        }
+    }
+
+    public static boolean isloggedin(){
+        return LinphoneCore.RegistrationState.RegistrationOk.toString().equals(sRegistrationState) ? true: false;
     }
 
     @Override
@@ -75,7 +91,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
 //            mWakeLock.release();
 //            mWakeLock = null;
 //        }
-        ((AlarmManager)this.getSystemService(Context.ALARM_SERVICE)).cancel(mKeepAlivePendingIntent);
+        ((AlarmManager) this.getSystemService(Context.ALARM_SERVICE)).cancel(mKeepAlivePendingIntent);
     }
 
     @Nullable
@@ -112,19 +128,19 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     @Override
     public void registrationState(LinphoneCore linphoneCore, LinphoneProxyConfig linphoneProxyConfig,
                                   LinphoneCore.RegistrationState registrationState, String s) {
-        String state = registrationState.toString();
-        if (sRegistrationCallback != null && state.equals(LinphoneCore.RegistrationState.RegistrationNone.toString())) {
+        sRegistrationState = registrationState.toString();
+        if (sRegistrationCallback != null && sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationNone.toString())) {
             sRegistrationCallback.onRegistrationNone();
-        } else if (state.equals(LinphoneCore.RegistrationState.RegistrationProgress.toString())) {
+        } else if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationProgress.toString())) {
             sRegistrationCallback.OnRegistrationInProgress();
-        } else if (state.equals(LinphoneCore.RegistrationState.RegistrationOk.toString())) {
+        } else if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationOk.toString())) {
             sRegistrationCallback.OnRegistrationOk();
-        } else if (state.equals(LinphoneCore.RegistrationState.RegistrationCleared.toString())) {
+        } else if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationCleared.toString())) {
             sRegistrationCallback.OnRegistrationCleared();
-        } else if (state.equals(LinphoneCore.RegistrationState.RegistrationFailed.toString())) {
+        } else if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationFailed.toString())) {
             sRegistrationCallback.OnRegistrationFailed();
         }
-     }
+    }
 
     @Override
     public void callState(final LinphoneCore linphoneCore, final LinphoneCall linphoneCall, LinphoneCall.State state, String s) {

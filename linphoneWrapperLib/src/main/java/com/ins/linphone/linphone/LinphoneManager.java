@@ -2,6 +2,7 @@ package com.ins.linphone.linphone;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -28,6 +29,7 @@ import org.linphone.core.PublishState;
 import org.linphone.core.SubscriptionState;
 import org.linphone.core.ToneID;
 import org.linphone.mediastream.Log;
+import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -149,7 +151,7 @@ public class LinphoneManager implements LinphoneCoreListener {
         mLc.setPlayFile(mPauseSoundFile);
         mLc.setChatDatabasePath(mChatDatabaseFile);
 
-        setBackCamAsDefault();
+        setFrontCamAsDefault();
 
         int availableCores = Runtime.getRuntime().availableProcessors();
         Log.w(TAG, "MediaStreamer : " + availableCores + " cores detected and configured");
@@ -218,7 +220,7 @@ public class LinphoneManager implements LinphoneCoreListener {
             if (versionName == null) {
                 versionName = String.valueOf(mServiceContext.getPackageManager().getPackageInfo(mServiceContext.getPackageName(), 0).versionCode);
             }
-            mLc.setUserAgent("Hunayutong", versionName);
+            mLc.setUserAgent("linphonewrapper", versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -236,7 +238,7 @@ public class LinphoneManager implements LinphoneCoreListener {
         try {
             mTimer.cancel();
             mLc.destroy();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             mLc = null;
@@ -409,16 +411,21 @@ public class LinphoneManager implements LinphoneCoreListener {
 
     }
 
-    private void setBackCamAsDefault() {
-//        int camId = 0;
-//        AndroidCameraConfiguration.AndroidCamera[] cameras = AndroidCameraConfiguration.retrieveCameras();
-//        for (AndroidCameraConfiguration.AndroidCamera androidCamera :
-//                cameras) {
-//            if (!androidCamera.frontFacing) {
-//                camId = androidCamera.id;
-//            }
-//        }
-//        android.util.Log.e(TAG, "setBackCamAsDefault: cameraId is " + camId);
+    private void setFrontCamAsDefault() {
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();
+        for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+            Camera.getCameraInfo(camIdx, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                try {
+                    mLc.setVideoDevice(camIdx);
+                } catch (RuntimeException e) {
+                    Log.e(TAG, "Camera failed to open: " + e.toString());
+                }
+            }
+        }
+
         mLc.setVideoDevice(0);
     }
 }

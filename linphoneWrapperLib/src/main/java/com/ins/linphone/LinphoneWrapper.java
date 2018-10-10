@@ -26,7 +26,7 @@ public class LinphoneWrapper {
     private static AndroidVideoWindowImpl mAndroidVideoWindow;
     private static SurfaceView mRenderingView, mPreviewView;
 
-    public static void startService(Context context) {
+    public static void startLinphoneService(Context context) {
         if (!LinphoneService.isReady()) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setClass(context, LinphoneService.class);
@@ -34,8 +34,7 @@ public class LinphoneWrapper {
         }
     }
 
-
-    public static void setAccount(String username, String password, String host) {
+    private static void setAccount(String username, String password, String host) {
         mUsername = username;
         mPassword = password;
         mHost = host;
@@ -54,7 +53,8 @@ public class LinphoneWrapper {
     }
 
 
-    public static void login() {
+    public static void login(String username, String password, String host) {
+        setAccount(username, password, host);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -65,9 +65,14 @@ public class LinphoneWrapper {
                         e.printStackTrace();
                     }
                 }
-                loginToServer();
+                 loginToServer();
             }
         }).start();
+    }
+
+    public static void logout(){
+        LinphoneUtils.getInstance().unRegisterUserAuth();
+        LinphoneService.getInstance().keepServiceAlive(false);
     }
 
 
@@ -138,6 +143,7 @@ public class LinphoneWrapper {
                 throw new RuntimeException("The sip account is not configured.");
             }
             LinphoneUtils.getInstance().registerUserAuth(mUsername, mPassword, mHost);
+            LinphoneService.getInstance().keepServiceAlive(true);
         } catch (LinphoneCoreException e) {
             e.printStackTrace();
         }

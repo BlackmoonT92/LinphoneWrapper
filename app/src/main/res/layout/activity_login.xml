@@ -12,6 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:inputType="number"
+        android:text="23401"
         android:hint="sip account"/>
 
     <EditText
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:text="N66LFH"
         android:hint="sip_password"/>
 
     <EditText
@@ -28,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:text="192.168.100.38"
         android:hint="sip_server"/>
 
     <Button
