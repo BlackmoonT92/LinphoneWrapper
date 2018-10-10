@@ -50,16 +50,16 @@ ext {
     bintrayRepo = 'LinphoneWrapper'
     bintrayName = 'linphonewrapperlib'
 
-    publishedGroupId = 'com.ins.linphonewrapper'
-    libraryName = 'LinphoneWrapper'
-    artifact = 'linphonewrapper'
+    publishedGroupId = 'com.ins'
+    libraryName = 'LinphoneWrapperLib'
+    artifact = 'linphone-wrapper-lib'
 
     libraryDescription = 'Offering an easier way to work with linphone SDK.'
 
     siteUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper'
     gitUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
 
     developerId = 'tampv92'
     developerName = 'Tam Phan'
