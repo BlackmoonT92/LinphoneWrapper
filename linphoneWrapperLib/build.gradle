@@ -48,7 +48,7 @@ dependencies {
 
 ext {
     bintrayRepo = 'LinphoneWrapper'
-    bintrayName = 'linphonewrapperlib'
+    bintrayName = 'linphone-wrapper-lib'
 
     publishedGroupId = 'com.ins'
     libraryName = 'LinphoneWrapperLib'
