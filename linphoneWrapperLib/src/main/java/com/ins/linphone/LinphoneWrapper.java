@@ -8,7 +8,7 @@ import android.view.SurfaceView;
 import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
 import com.ins.linphone.linphone.LinphoneManager;
-import com.ins.linphone.linphone.LinphoneUtils;
+import com.ins.linphone.utils.LinphoneUtils;
 import com.ins.linphone.linphone.PhoneBean;
 import com.ins.linphone.service.LinphoneService;
 
@@ -28,9 +28,10 @@ public class LinphoneWrapper {
 
     public static void startLinphoneService(Context context) {
         if (!LinphoneService.isReady()) {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.setClass(context, LinphoneService.class);
-            context.startService(intent);
+//            Intent intent = new Intent(Intent.ACTION_MAIN);
+//            intent.setClass(context, LinphoneService.class);
+//            context.startService(intent);
+            context.startService(new Intent(context, LinphoneService.class));
         }
     }
 
@@ -70,9 +71,8 @@ public class LinphoneWrapper {
         }).start();
     }
 
-    public static void logout(){
+    public static void logout() {
         LinphoneUtils.getInstance().unRegisterUserAuth();
-        LinphoneService.getInstance().keepServiceAlive(false);
     }
 
 
@@ -245,5 +245,11 @@ public class LinphoneWrapper {
 
     public static LinphoneCore getLC() {
         return LinphoneManager.getLc();
+    }
+
+    public static interface LogoutCallback {
+        void onLogoutSuccessful();
+
+        void onLogoutFailed(String error);
     }
 }

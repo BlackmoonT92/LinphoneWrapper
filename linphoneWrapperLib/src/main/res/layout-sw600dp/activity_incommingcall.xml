@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tvIncomingCallTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/material_padding_large"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_title_size"
+        android:padding="@dimen/material_padding_medium"
+        android:text="@string/incomingcall" />
+
+    <TextView
+        android:id="@+id/tvCallerNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_primary_size"
+        android:padding="@dimen/material_padding_medium"
+        android:layout_below="@+id/tvIncomingCallTitle"
+        android:text="" />
+
+
+    <LinearLayout
+        android:id="@+id/actionbuttonlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/material_padding_small"
+        android:padding="@dimen/material_padding_small">
+
+        <ImageView
+            android:id="@+id/ivHangUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_end_call" />
+
+        <ImageView
+            android:id="@+id/ivAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_accept_call" />
+
+    </LinearLayout>
+
+</RelativeLayout>

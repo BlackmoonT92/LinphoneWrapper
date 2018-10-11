@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.ins.linphone.utils.LinphoneUtils;
+import com.ins.linphone.utils.LogUtil;
 import com.ins.linphone.R;
 
 import org.linphone.core.LinphoneAddress;
@@ -28,8 +30,6 @@ import org.linphone.core.PayloadType;
 import org.linphone.core.PublishState;
 import org.linphone.core.SubscriptionState;
 import org.linphone.core.ToneID;
-import org.linphone.mediastream.Log;
-import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,7 +82,7 @@ public class LinphoneManager implements LinphoneCoreListener {
 
     public static synchronized LinphoneCore getLcIfManagerNotDestroyOrNull() {
         if (sExited || instance == null) {
-            Log.e("Trying to get linphone core while LinphoneManager already destroyed or not created");
+            LogUtil.d("Trying to get linphone core while LinphoneManager already destroyed or not created");
             return null;
         }
         return getLc();
@@ -117,7 +117,7 @@ public class LinphoneManager implements LinphoneCoreListener {
             try {
                 initLibLinphone();
             } catch (LinphoneCoreException e) {
-                Log.e(e);
+                LogUtil.e(e.getMessage());
             }
 
             TimerTask task = new TimerTask() {
@@ -137,7 +137,7 @@ public class LinphoneManager implements LinphoneCoreListener {
             mTimer.schedule(task, 0, 20);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "startLibLinphone: cannot start linphone");
+            LogUtil.d("startLibLinphone: cannot start linphone");
         }
     }
 
@@ -154,11 +154,11 @@ public class LinphoneManager implements LinphoneCoreListener {
         setFrontCamAsDefault();
 
         int availableCores = Runtime.getRuntime().availableProcessors();
-        Log.w(TAG, "MediaStreamer : " + availableCores + " cores detected and configured");
+        LogUtil.d("MediaStreamer : " + availableCores + " cores detected and configured");
         mLc.setCpuCount(availableCores);
 
         int migrationResult = getLc().migrateToMultiTransport();
-        Log.d(TAG, "Migration to multi transport result = " + migrationResult);
+        LogUtil.d("Migration to multi transport result = " + migrationResult);
 
         mLc.setNetworkReachable(true);
 
@@ -195,7 +195,7 @@ public class LinphoneManager implements LinphoneCoreListener {
         }
         for (PayloadType payloadType : mLc.getVideoCodecs()) {
             try {
-                android.util.Log.e(TAG, "setCodecMime: mime: " + payloadType.getMime() + " rate: " + payloadType.getRate());
+                LogUtil.d("setCodecMime: mime: " + payloadType.getMime() + " rate: " + payloadType.getRate());
                 mLc.enablePayloadType(payloadType, true);
             } catch (LinphoneCoreException e) {
                 e.printStackTrace();
@@ -421,7 +421,7 @@ public class LinphoneManager implements LinphoneCoreListener {
                 try {
                     mLc.setVideoDevice(camIdx);
                 } catch (RuntimeException e) {
-                    Log.e(TAG, "Camera failed to open: " + e.toString());
+                    LogUtil.d( "Camera failed to open: " + e.toString());
                 }
             }
         }

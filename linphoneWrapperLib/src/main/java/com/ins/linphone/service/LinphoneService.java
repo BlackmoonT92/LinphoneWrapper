@@ -8,14 +8,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 
+import com.ins.linphone.utils.LogUtil;
 import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
 import com.ins.linphone.linphone.KeepAliveHandler;
 import com.ins.linphone.linphone.LinphoneManager;
-import com.ins.linphone.linphone.LinphoneUtils;
 
 import org.linphone.core.LinphoneAddress;
 import org.linphone.core.LinphoneAuthInfo;
@@ -59,11 +58,10 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         super.onCreate();
         LinphoneCoreFactoryImpl.instance();
         LinphoneManager.createAndStart(LinphoneService.this);
+        sRegistrationState = LinphoneCore.RegistrationState.RegistrationCleared.toString();
         instance = this;
-//        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-//        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Linphone");
-//        mWakeLock.acquire();
     }
+
 
     public void keepServiceAlive(boolean keepAlive) {
         if (keepAlive) {
@@ -83,16 +81,14 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "LinphoneService onDestroy execute");
+        LogUtil.d( "LinphoneService onDestroy execute");
         removeAllCallback();
         LinphoneManager.getLc().destroy();
         LinphoneManager.destroy();
-//        if (mWakeLock != null) {
-//            mWakeLock.release();
-//            mWakeLock = null;
-//        }
-        ((AlarmManager) this.getSystemService(Context.ALARM_SERVICE)).cancel(mKeepAlivePendingIntent);
+        keepServiceAlive(false);
+        instance = null;
     }
+
 
     @Nullable
     @Override
@@ -129,7 +125,8 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     public void registrationState(LinphoneCore linphoneCore, LinphoneProxyConfig linphoneProxyConfig,
                                   LinphoneCore.RegistrationState registrationState, String s) {
         sRegistrationState = registrationState.toString();
-        if (sRegistrationCallback != null && sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationNone.toString())) {
+        if(sRegistrationCallback == null) return;
+        if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationNone.toString())) {
             sRegistrationCallback.onRegistrationNone();
         } else if (sRegistrationState.equals(LinphoneCore.RegistrationState.RegistrationProgress.toString())) {
             sRegistrationCallback.OnRegistrationInProgress();
@@ -144,7 +141,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
 
     @Override
     public void callState(final LinphoneCore linphoneCore, final LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
-        Log.e(TAG, "callState: " + state.toString());
+        LogUtil.d( "callState: " + state.toString());
         if (state == LinphoneCall.State.IncomingReceived && sPhoneCallback != null) {
             sPhoneCallback.onIncomingCall(linphoneCall);
         }

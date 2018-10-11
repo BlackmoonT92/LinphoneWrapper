@@ -44,6 +44,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.+'
     compile(name:'liblinphone-android-sdk', ext:'aar')
+    compile 'im.dlg:android-dialer:1.2.5'
 }
 
 ext {

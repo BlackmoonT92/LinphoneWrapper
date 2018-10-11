@@ -1,7 +1,9 @@
-package com.ins.linphone.linphone;
+package com.ins.linphone.utils;
 
 import android.content.Context;
-import android.util.Log;
+
+import com.ins.linphone.linphone.LinphoneManager;
+import com.ins.linphone.linphone.PhoneBean;
 
 import org.linphone.core.LinphoneAddress;
 import org.linphone.core.LinphoneAuthInfo;
@@ -41,9 +43,9 @@ public class LinphoneUtils {
     }
 
     public void registerUserAuth(String name, String password, String host) throws LinphoneCoreException {
-        Log.e(TAG, "registerUserAuth name = " + name);
-        Log.e(TAG, "registerUserAuth pw = " + password);
-        Log.e(TAG, "registerUserAuth host = " + host);
+        LogUtil.d( "registerUserAuth name = " + name);
+        LogUtil.d( "registerUserAuth pw = " + password);
+        LogUtil.d( "registerUserAuth host = " + host);
         String identify = "sip:" + name + "@" + host;
         String proxy = "sip:" + host;
         LinphoneAddress proxyAddr = LinphoneCoreFactory.instance().createLinphoneAddress(proxy);

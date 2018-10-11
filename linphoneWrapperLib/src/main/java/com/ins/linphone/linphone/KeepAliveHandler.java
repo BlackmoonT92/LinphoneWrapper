@@ -3,7 +3,8 @@ package com.ins.linphone.linphone;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
+import com.ins.linphone.utils.LogUtil;
 
 public class KeepAliveHandler extends BroadcastReceiver {
     private static final String TAG = "KeepAliveHandler";
@@ -14,7 +15,7 @@ public class KeepAliveHandler extends BroadcastReceiver {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                Log.e(TAG, "Cannot sleep for 2s");
+                LogUtil.d( "Cannot sleep for 2s");
             }
         }
     }

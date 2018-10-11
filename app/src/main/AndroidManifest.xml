@@ -13,7 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|mcc|mnc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -23,5 +25,13 @@
         <activity android:name=".VideoActivity">
         </activity>
         <receiver android:name=".VideoActivity$FinishVideoActivityReceiver"/>
+
+        <activity android:name=".MyIncomingCallActivity" />
+        <activity android:name=".MyInCallActivity" />
+        <activity android:name=".MyOutgoingCallActivity" />
+
+        <activity
+            android:name=".DialerActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 </manifest>
