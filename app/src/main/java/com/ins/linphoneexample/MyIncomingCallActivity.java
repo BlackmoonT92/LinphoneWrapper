@@ -40,7 +40,6 @@ public class MyIncomingCallActivity extends IncomingCallActivity {
     @Override
     protected void onHangUpClicked() {
         LinphoneWrapper.hangUp();
-        Utils.startActivityOnMainThread(this, new Intent(this, MainActivity.class));
         finish();
     }
 

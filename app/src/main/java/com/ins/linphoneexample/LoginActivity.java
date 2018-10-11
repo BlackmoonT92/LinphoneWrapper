@@ -62,6 +62,6 @@ public class LoginActivity extends AppCompatActivity {
     private void goToMainActivity() {
         Intent intent = new Intent(this, DialerActivity.class);
         intent.putExtra("EXTRA_REGION_CODE", "AU");
-        startActivity(intent); 
+        startActivity(intent);
     }
 }
