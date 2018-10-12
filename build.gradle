@@ -19,7 +19,7 @@ allprojects {
     repositories {
         jcenter()
         flatDir {
-            dirs project(':linphoneWrapperLib').file('libs')
+            dirs project(':linphone-wrapper-lib').file('libs')
         }
 
     }

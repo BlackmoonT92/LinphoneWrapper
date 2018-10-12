@@ -1,1 +1,1 @@
-include ':app', ':linphoneWrapperLib'
+include ':app', ':linphone-wrapper-lib'

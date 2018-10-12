@@ -48,24 +48,18 @@ dependencies {
 }
 
 ext {
-    bintrayRepo = 'LinphoneWrapper'
-    bintrayName = 'linphoneWrapperLib'
-
-    publishedGroupId = 'com.ins'
-    libraryName = 'LinphoneWrapperLib'
-    artifact = 'linphoneWrapperLib'
-
-    libraryDescription = 'Offering an easier way to work with linphone SDK.'
-
+    bintrayRepo = 'ins' // your repo name
+    bintrayName = 'linphone-wrapper-lib' // has to be same as your library module name
+    publishedGroupId = 'com.ins.linphone' // your module package name
+    libraryName = 'linphone-wrapper-lib'
+    artifact = 'linphone-wrapper-lib' // has to be same as your library module name
+    libraryDescription = 'Offering an easier way to work with linphone SDK'
     siteUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper'
     gitUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper.git'
-
-    libraryVersion = '0.1.3'
-
+    libraryVersion = '0.1.0'
     developerId = 'tampv92'
     developerName = 'Tam Phan'
     developerEmail = 'tampv92@gmail.com'
-
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
