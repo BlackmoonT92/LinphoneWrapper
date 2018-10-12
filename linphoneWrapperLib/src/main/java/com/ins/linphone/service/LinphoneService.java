@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 
 
+import com.ins.linphone.LinphoneWrapper;
 import com.ins.linphone.utils.LogUtil;
 import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
@@ -43,7 +44,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     private static PhoneCallback sPhoneCallback;
     private static RegistrationCallback sRegistrationCallback;
 //    private PowerManager.WakeLock mWakeLock;
-    private static String sRegistrationState;
+    private String sRegistrationState;
 
     public static boolean isReady() {
         return instance != null;
@@ -74,7 +75,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         }
     }
 
-    public static boolean isloggedin(){
+    public boolean isloggedin(){
         return LinphoneCore.RegistrationState.RegistrationOk.toString().equals(sRegistrationState) ? true: false;
     }
 
@@ -143,6 +144,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     public void callState(final LinphoneCore linphoneCore, final LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
         LogUtil.d( "callState: " + state.toString());
         if (state == LinphoneCall.State.IncomingReceived && sPhoneCallback != null) {
+            LinphoneWrapper.toggleSpeaker(true);
             sPhoneCallback.onIncomingCall(linphoneCall);
         }
 

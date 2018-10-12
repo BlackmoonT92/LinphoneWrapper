@@ -64,7 +64,7 @@ public abstract class OutgoingCallActivity extends BaseActivity {
             @Override
             public void onCallError() {
                 super.onCallError();
-                Utils.showToast(OutgoingCallActivity.this, "Something when wrong", Toast.LENGTH_LONG);
+                Utils.showToast(OutgoingCallActivity.this, getString(R.string.outgoing_failed), Toast.LENGTH_LONG);
                 finish();
             }
         });

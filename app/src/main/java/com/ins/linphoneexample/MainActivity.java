@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onIncomingCall(LinphoneCall linphoneCall) {
                 super.onIncomingCall(linphoneCall);
-                //LinphoneWrapper.toggleSpeaker(true);
+                LinphoneWrapper.toggleSpeaker(true);
 //                mCallIn.setVisibility(View.VISIBLE);
 //                mHangUp.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(MainActivity.this, MyIncomingCallActivity.class);

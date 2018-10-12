@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!LinphoneService.isReady()){
             LinphoneWrapper.startLinphoneService(this);
-        }else if(LinphoneService.isloggedin()){
+        }else if(LinphoneService.getInstance().isloggedin()){
             goToMainActivity();
         }
         LinphoneWrapper.addCallback(new RegistrationCallback() {

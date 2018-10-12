@@ -60,7 +60,7 @@ ext {
     siteUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper'
     gitUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper.git'
 
-    libraryVersion = '0.1.1'
+    libraryVersion = '0.1.2'
 
     developerId = 'tampv92'
     developerName = 'Tam Phan'

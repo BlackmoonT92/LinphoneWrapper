@@ -3,4 +3,6 @@
     <string name="incall">Call connected</string>
     <string name="incomingcall">Incoming call</string>
     <string name="outgoing">Dialing</string>
+    <string name="contact_list">Contact List</string>
+    <string name="outgoing_failed">This number cannot be reached. Please check the number and try again.</string>
 </resources>
