@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -42,7 +42,7 @@ buildscript {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile(name:'liblinphone-android-sdk', ext:'aar')
     compile 'im.dlg:android-dialer:1.2.5'
 }
@@ -56,7 +56,7 @@ ext {
     libraryDescription = 'Offering an easier way to work with linphone SDK'
     siteUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper'
     gitUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper.git'
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
     developerId = 'tampv92'
     developerName = 'Tam Phan'
     developerEmail = 'tampv92@gmail.com'

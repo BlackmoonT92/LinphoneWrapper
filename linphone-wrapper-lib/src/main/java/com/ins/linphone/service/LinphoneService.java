@@ -144,7 +144,6 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
     public void callState(final LinphoneCore linphoneCore, final LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
         LogUtil.d( "callState: " + state.toString());
         if (state == LinphoneCall.State.IncomingReceived && sPhoneCallback != null) {
-            LinphoneWrapper.toggleSpeaker(true);
             sPhoneCallback.onIncomingCall(linphoneCall);
         }
 

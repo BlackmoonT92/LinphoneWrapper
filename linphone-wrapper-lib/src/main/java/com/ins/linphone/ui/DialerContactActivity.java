@@ -11,6 +11,7 @@ import im.dlg.dialer.DialpadFragment;
 
 public abstract class DialerContactActivity extends BaseActivity implements DialpadFragment.Callback {
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

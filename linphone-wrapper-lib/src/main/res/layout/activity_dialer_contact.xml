@@ -5,15 +5,15 @@
 
     <fragment
         android:id="@+id/fragment_contacts"
-        android:name="com.ins.linphone.ui.ContactsFragment"
+        class="com.ins.linphone.ui.ContactsFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
 
     <fragment
         android:id="@+id/fragment_dialer"
-        android:name="im.dlg.dialer.DialpadFragment"
+        class="com.ins.linphone.ui.MyDialpadFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2" />
 </LinearLayout>
