@@ -1,7 +1,11 @@
 package com.ins.linphone.utils;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 
+import com.ins.linphone.LinphoneWrapper;
+import com.ins.linphone.R;
 import com.ins.linphone.linphone.LinphoneManager;
 import com.ins.linphone.linphone.PhoneBean;
 
@@ -20,10 +24,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.content.Context.AUDIO_SERVICE;
+
 public class LinphoneUtils {
     private static final String TAG = "LinphoneUtils";
     private static volatile LinphoneUtils sLinphoneUtils;
     private LinphoneCore mLinphoneCore = null;
+    private static MediaPlayer mMediaPlayer = null;
 
     public static LinphoneUtils getInstance() {
         if (sLinphoneUtils == null) {
@@ -67,12 +74,13 @@ public class LinphoneUtils {
 
     public void unRegisterUserAuth(){
         if(mLinphoneCore == null) return;
-        LinphoneProxyConfig prxCfg = mLinphoneCore.getDefaultProxyConfig();
-        if(prxCfg != null){
-            prxCfg.edit();
-            prxCfg.setExpires(0);
-            prxCfg.done();
-            mLinphoneCore.refreshRegisters();
+        for (LinphoneProxyConfig proxyConfig : mLinphoneCore.getProxyConfigList()) {
+            if (proxyConfig != null) {
+                proxyConfig.edit();
+                proxyConfig.setExpires(0);
+                proxyConfig.done();
+                mLinphoneCore.refreshRegisters();
+            }
         }
     }
 
@@ -167,5 +175,45 @@ public class LinphoneUtils {
             return null;
         }
         return LinphoneManager.getLcIfManagerNotDestroyOrNull();
+    }
+
+    public static MediaPlayer playRingingSound(Context context) {
+        LinphoneWrapper.toggleSpeaker(true);
+        AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (currentVolume < maxVolume / 3) {
+            currentVolume = maxVolume / 2;
+        }
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND);
+        int result = audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN);
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            return null;
+        }
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.ring);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.release();
+            }
+        });
+        mediaPlayer.start(); // no need to call prepare(); create() does that for you
+        mMediaPlayer = mediaPlayer;
+        return mediaPlayer;
+    }
+
+    public static void stopRining() {
+        stopPlayingSound(mMediaPlayer);
+    }
+
+    public static void stopPlayingSound(MediaPlayer mediaPlayer) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
     }
 }

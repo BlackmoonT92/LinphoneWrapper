@@ -5,8 +5,9 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvCurrentNumber"
         android:layout_gravity="center"
-        android:text="@string/contact_list"
+        android:text="Contact list"
         android:gravity="center"
         android:padding="@dimen/material_padding_small"
         android:textColor="@color/colorPrimary"

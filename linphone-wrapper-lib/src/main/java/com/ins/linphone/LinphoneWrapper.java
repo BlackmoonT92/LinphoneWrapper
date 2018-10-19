@@ -247,9 +247,4 @@ public class LinphoneWrapper {
         return LinphoneManager.getLc();
     }
 
-    public static interface LogoutCallback {
-        void onLogoutSuccessful();
-
-        void onLogoutFailed(String error);
-    }
 }

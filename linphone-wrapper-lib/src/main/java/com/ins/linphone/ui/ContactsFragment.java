@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ins.linphone.R;
 
@@ -42,4 +43,11 @@ public class ContactsFragment extends Fragment {
     protected void setContactsList(List<ContactModel> contacts) {
         contactAdapter.setContactsList(contacts);
     }
+
+    protected void setCurrentNumber(String number) {
+        if (number != null && !number.isEmpty()) {
+            ((TextView) getView().findViewById(R.id.tvCurrentNumber)).setText(getString(R.string.your_number, number));
+        }
+    }
+
 }

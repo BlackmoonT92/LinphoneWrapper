@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.ins.linephonewrapper"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -25,9 +25,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':linphone-wrapper-lib')
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.jakewharton:butterknife:8.0.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':linphone-wrapper-lib')
+    implementation 'com.android.support:appcompat-v7:26.0.1'
+    implementation 'com.jakewharton:butterknife:8.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.0.0'
+    implementation project(':liblinphone-android-sdk')
+    implementation 'im.dlg:android-dialer:1.2.5'
+
 }

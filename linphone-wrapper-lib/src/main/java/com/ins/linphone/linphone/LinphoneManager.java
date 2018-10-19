@@ -146,7 +146,7 @@ public class LinphoneManager implements LinphoneCoreListener {
         setUserAgent();
         mLc.setRemoteRingbackTone(mRingSoundFile);
         mLc.setTone(ToneID.CallWaiting, mRingSoundFile);
-        mLc.setRing(mRingSoundFile);
+        //mLc.setRing(mRingSoundFile);
         mLc.setRootCA(mLinphoneRootCaFile);
         mLc.setPlayFile(mPauseSoundFile);
         mLc.setChatDatabasePath(mChatDatabaseFile);
@@ -204,7 +204,7 @@ public class LinphoneManager implements LinphoneCoreListener {
     }
 
     private void copyAssetsFromPackage() throws IOException {
-        LinphoneUtils.copyIfNotExist(mServiceContext, R.raw.oldphone_mono, mRingSoundFile);
+        //LinphoneUtils.copyIfNotExist(mServiceContext, R.raw.ring, mRingSoundFile);
         LinphoneUtils.copyIfNotExist(mServiceContext, R.raw.ringback, mRingBackSoundFile);
         LinphoneUtils.copyIfNotExist(mServiceContext, R.raw.toy_mono, mPauseSoundFile);
         LinphoneUtils.copyIfNotExist(mServiceContext, R.raw.linphonerc_default, mLinphoneConfigFile);

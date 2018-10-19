@@ -75,7 +75,7 @@ public class ContactAdapter extends ArrayAdapter<ContactModel> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        viewHolder.tvContactNumber.setText(dataModel.getName());
+        viewHolder.tvContactName.setText(dataModel.getName());
         viewHolder.tvContactNumber.setText(dataModel.getPhoneNumber());
         // Return the completed view to render on screen
         return convertView;

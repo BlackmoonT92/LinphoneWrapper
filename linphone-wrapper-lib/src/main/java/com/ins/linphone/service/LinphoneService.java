@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 
 
 import com.ins.linphone.LinphoneWrapper;
+import com.ins.linphone.utils.LinphoneUtils;
 import com.ins.linphone.utils.LogUtil;
 import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
@@ -145,6 +146,7 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
         LogUtil.d( "callState: " + state.toString());
         if (state == LinphoneCall.State.IncomingReceived && sPhoneCallback != null) {
             sPhoneCallback.onIncomingCall(linphoneCall);
+            LinphoneUtils.playRingingSound(getApplicationContext());
         }
 
         if (state == LinphoneCall.State.OutgoingInit && sPhoneCallback != null) {
@@ -153,18 +155,22 @@ public class LinphoneService extends Service implements LinphoneCoreListener {
 
         if (state == LinphoneCall.State.Connected && sPhoneCallback != null) {
             sPhoneCallback.onCallConnected();
+            LinphoneUtils.stopRining();
         }
 
         if (state == LinphoneCall.State.Error && sPhoneCallback != null) {
             sPhoneCallback.onCallError();
+            LinphoneUtils.stopRining();
         }
 
         if (state == LinphoneCall.State.CallEnd && sPhoneCallback != null) {
             sPhoneCallback.onCallEnd();
+            LinphoneUtils.stopRining();
         }
 
         if (state == LinphoneCall.State.CallReleased && sPhoneCallback != null) {
             sPhoneCallback.OnCallReleased();
+            LinphoneUtils.stopRining();
         }
     }
 

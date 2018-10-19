@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+  <info organisation="LinphoneWrapper" module="liblinphone-android-sdk" revision="unspecified" status="integration" default="true" publication="20181019145539"/>
+  <configurations>
+    <conf name="archives" visibility="public"/>
+    <conf name="default" visibility="public"/>
+  </configurations>
+  <publications>
+    <artifact name="liblinphone-android-sdk" type="aar" ext="aar" conf="archives,default"/>
+  </publications>
+</ivy-module>

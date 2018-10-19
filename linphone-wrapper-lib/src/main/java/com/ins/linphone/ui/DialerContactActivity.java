@@ -30,6 +30,13 @@ public abstract class DialerContactActivity extends BaseActivity implements Dial
         }
     }
 
+    public void setCurrentNumber(String number){
+        ContactsFragment contactsFragment = (ContactsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_contacts);
+        if (contactsFragment != null) {
+            contactsFragment.setCurrentNumber(number);
+        }
+    }
+
     public abstract void onContactItemClicked(ContactModel contact);
 
     protected abstract void onPhoneNumberPicked(String formatted, String raw);
