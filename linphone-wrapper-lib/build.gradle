@@ -6,8 +6,8 @@ android {
     buildToolsVersion "26.0.3"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 21
+        minSdkVersion 14
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
 
@@ -55,7 +55,7 @@ ext {
     libraryDescription = 'Offering an easier way to work with linphone SDK'
     siteUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper'
     gitUrl = 'https://github.com/BlackmoonT92/LinphoneWrapper.git'
-    libraryVersion = '0.1.3'
+    libraryVersion = '0.1.5'
     developerId = 'tampv92'
     developerName = 'Tam Phan'
     developerEmail = 'tampv92@gmail.com'

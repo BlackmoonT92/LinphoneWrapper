@@ -8,9 +8,9 @@ import android.view.SurfaceView;
 import com.ins.linphone.callback.PhoneCallback;
 import com.ins.linphone.callback.RegistrationCallback;
 import com.ins.linphone.linphone.LinphoneManager;
-import com.ins.linphone.utils.LinphoneUtils;
 import com.ins.linphone.linphone.PhoneBean;
 import com.ins.linphone.service.LinphoneService;
+import com.ins.linphone.utils.LinphoneUtils;
 
 import org.linphone.core.LinphoneCallParams;
 import org.linphone.core.LinphoneCore;
@@ -245,6 +245,10 @@ public class LinphoneWrapper {
 
     public static LinphoneCore getLC() {
         return LinphoneManager.getLc();
+    }
+
+    public static void setVolume(int percent){
+        LinphoneUtils.setVolume(percent);
     }
 
 }

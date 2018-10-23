@@ -29,6 +29,7 @@ import static android.content.Context.AUDIO_SERVICE;
 public class LinphoneUtils {
     private static final String TAG = "LinphoneUtils";
     private static volatile LinphoneUtils sLinphoneUtils;
+    private static int ringingVolume = 50;
     private LinphoneCore mLinphoneCore = null;
     private static MediaPlayer mMediaPlayer = null;
 
@@ -47,6 +48,10 @@ public class LinphoneUtils {
         mLinphoneCore = LinphoneManager.getLc();
         mLinphoneCore.enableEchoCancellation(true);
         mLinphoneCore.enableEchoLimiter(true);
+    }
+
+    public static void setVolume(int percent) {
+        ringingVolume = percent;
     }
 
     public void registerUserAuth(String name, String password, String host) throws LinphoneCoreException {
@@ -181,11 +186,7 @@ public class LinphoneUtils {
         LinphoneWrapper.toggleSpeaker(true);
         AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        if (currentVolume < maxVolume / 3) {
-            currentVolume = maxVolume / 2;
-        }
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) (maxVolume * ringingVolume / 100), AudioManager.FLAG_PLAY_SOUND);
         int result = audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
         if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
